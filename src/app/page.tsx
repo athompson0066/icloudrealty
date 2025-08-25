@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import dynamic from "next/dynamic";
 import {
   Award, BadgeCheck, BarChart, Briefcase, Building2, Calendar, CheckCircle, ChevronLeft, ChevronRight,
   CircleDollarSign, Home, Mail, MapPin, MessageSquare, Mic, Phone, Search, Sparkles, Star, Users, Video, Wrench
@@ -15,7 +16,12 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "sonner";
-import { FlowiseChatbot } from "../components/chat/FlowiseChatbot";
+// import { FlowiseChatbot } from "../components/chat/FlowiseChatbot"; // Removed direct import
+
+const FlowiseChatbot = dynamic(() => import("../components/chat/FlowiseChatbot").then((mod) => mod.FlowiseChatbot), {
+  ssr: false,
+  loading: () => null, // You can add a loading spinner here if needed
+});
 
 const leadMagnetSchema = z.object({
   name: z.string().min(1, "Name is required"),
